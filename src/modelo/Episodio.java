@@ -28,7 +28,6 @@ public class Episodio {
 		this.nome = nome;
 	}
 	
-	
 
 	public int getN_Episodios() {
 		return numero_episodio;

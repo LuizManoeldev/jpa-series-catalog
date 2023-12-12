@@ -27,6 +27,18 @@ public class CadastrarCatalogo {
 			System.out.println(e.getMessage());
 		}
 		
+		// Cadastro de Series
+		try {
+			System.out.println("Cadastrando Series...");
+			
+			Fachada.cadastrarSerie("Casa do Dragao", "2023", "acao", "HBOMAAX" );
+			Fachada.cadastrarSerie("Peaky Blinders", "2023", "terror", "NETFLIX");
+			Fachada.cadastrarSerie("Vingadores", "2019", "drama", "DISNEY");
+			Fachada.cadastrarSerie("The Witcher", "2019", "acao", "NETFLIX");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
 		//Cadastro de Episodios
 		try {
@@ -42,21 +54,11 @@ public class CadastrarCatalogo {
 			System.out.println(e.getMessage());
 		}
 		
-		// Cadastro de Series
-		try {
-			System.out.println("Cadastrando Series...");
-			
-			Fachada.cadastrarSerie("Casa do Dragao", "2023", "acao", "HBOMAAX" );
-			Fachada.cadastrarSerie("Peaky Blinders", "2023", "terror", "NETFLIX");
-			Fachada.cadastrarSerie("Vingadores", "2019", "drama", "DISNEY");
-			Fachada.cadastrarSerie("The Witcher", "2019", "acao", "NETFLIX");
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		
 		
 		//Adicionando Episodios nas series
 		try {
+			Fachada.inicializar();
 			System.out.println("Cadastrando Episodios nas series");
 			
 			Fachada.adicionarEpisodioNaSerie("Caverna", "Casa do Dragao");

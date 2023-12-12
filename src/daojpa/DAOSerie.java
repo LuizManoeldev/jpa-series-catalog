@@ -8,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import modelo.Serie;
 
 public class DAOSerie extends DAO<Serie> {
+	
 	public List<Serie> readAll(Object chave) {
 		TypedQuery<Serie> q = manager.createQuery("select * from Serie", Serie.class);
 		
@@ -21,6 +22,42 @@ public class DAOSerie extends DAO<Serie> {
 			TypedQuery<Serie> q = manager.createQuery("select s from Serie s where s.nome=:n", Serie.class);
 			q.setParameter("n", nome);
 			return q.getSingleResult();
+
+		}catch(NoResultException e){
+			return null;
+		}
+	}
+
+	public List<Serie> seriesDoAno(String chave) {
+		try{
+			String ano = (String) chave;
+			TypedQuery<Serie> q = manager.createQuery("select s from Serie s where s.ano =: ano", Serie.class);
+			q.setParameter("ano", ano);
+			return q.getResultList();
+
+		}catch(NoResultException e){
+			return null;
+		}
+	}
+
+	public List<Serie> seriesComMaisDeXEpisodios(Object chave) {
+	    try {
+	        int numero_eps = (int) chave;
+	        TypedQuery<Serie> q = manager.createQuery(
+	            "SELECT s FROM Serie s WHERE (SELECT COUNT(e) FROM s.listaEpisodios e) > :numeroDeEpisodios", Serie.class);
+	        q.setParameter("numeroDeEpisodios", numero_eps);
+	        return q.getResultList();
+	    } catch (NoResultException e) {
+	        return null;
+	    }
+	}
+	
+	public List<Serie> seriesDoGenero(Object chave){
+		try{
+			String genero = (String) chave;
+			TypedQuery<Serie> q = manager.createQuery("select s from Serie s where s.genero =: genero", Serie.class);
+			q.setParameter("genero", genero);
+			return q.getResultList();
 
 		}catch(NoResultException e){
 			return null;

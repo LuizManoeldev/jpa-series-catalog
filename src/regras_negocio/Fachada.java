@@ -53,15 +53,19 @@ public class Fachada {
 		return genero;
 	}
 
-	public static Episodio cadastrarEpisodio(int id, String nome) throws Exception {
+	public static Episodio cadastrarEpisodio(int numero_ep, String nome) throws Exception {
 		DAO.open();
 		Episodio episodio = daoepisodio.read(nome);
+		
+		
 		if(episodio != null) {
 			throw new Exception("Episodio ja cadastrado: " + nome);
 		}
+		
 
-		episodio = new Episodio(id, nome);
+		episodio = new Episodio(numero_ep, nome);
 		daoepisodio.create(episodio);
+		
 		DAO.commit();
 
 		return episodio;
@@ -91,10 +95,11 @@ public class Fachada {
 	}
 
 	public static void adicionarEpisodioNaSerie(String nomeEpisodio, String nomeSerie) throws Exception{
+
 		DAO.begin();
 		Serie serie = daoserie.read(nomeSerie);
 		Episodio episodio = daoepisodio.read(nomeEpisodio);
-
+		
 		if(serie == null) {
 			throw new Exception("Serie digitada: "+nomeSerie+" Serie Obtida: " + serie.getNome());
 		}
@@ -104,6 +109,7 @@ public class Fachada {
 		}
 
 		serie.adicionar(episodio);
+		episodio.setSerie(serie);
 		daoserie.update(serie);
 		daoepisodio.update(episodio);
 
@@ -246,7 +252,7 @@ public class Fachada {
 		return episodio;
 	}
 
-/*
+
 	//consultas especificas
 	public static List<Serie> seriesDoAno(String ano) {
 		DAO.begin();
@@ -257,7 +263,7 @@ public class Fachada {
 
 	public static List<Serie> seriesDoGenero(String nomeDoGenero){
 		DAO.begin();
-		List<Serie> resultados = daoserie.seriesDoGenero(nomeDoGenero);
+		List<Serie> resultados = daoserie.seriesDoAno(nomeDoGenero);
 		DAO.commit();
 		return resultados;
 	}
@@ -271,7 +277,7 @@ public class Fachada {
 		DAO.commit();
 		return resultados;
 	}
-*/
+
 
 	//Usuario
 	public static Usuario cadastrarUsuario(String nome, String senha) throws Exception{
