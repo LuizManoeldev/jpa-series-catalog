@@ -63,4 +63,13 @@ public class DAOSerie extends DAO<Serie> {
 			return null;
 		}
 	}
+	
+	public List<Serie> listarSerie(){
+		try {
+			TypedQuery<Serie> q = manager.createQuery("SELECT NEW modelo.Serie(s.nome, g.nome, s.ano, s.canal, COUNT(e.id)) FROM Serie s JOIN s.genero g LEFT JOIN s.listaEpisodios e GROUP BY s.id, g.id\r\n" , Serie.class);
+			return q.getResultList();
+		}catch(NoResultException e){
+			return null;
+		}
+	}
 }

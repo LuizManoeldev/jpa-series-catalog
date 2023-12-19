@@ -6,8 +6,8 @@ public class AlterarCatalogo {
 	public AlterarCatalogo(){
 		try {
 			Fachada.inicializar();
-			
-			Fachada.atualizarGeneroDeSerie("terror", "Casa do Dragao");
+			System.out.println("Atualizando Genero...");
+			Fachada.atualizarGeneroDeSerie("acao", "Casa do Dragao");
 	
 			
 		} catch (Exception e) {

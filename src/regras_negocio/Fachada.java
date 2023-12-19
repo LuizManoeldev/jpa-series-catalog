@@ -208,6 +208,10 @@ public class Fachada {
 			serie.getGenero().remover(serie);
 			daogenero.update(serie.getGenero());	
 		}
+		
+		serie.setGenero(null);
+		
+		
 		daoserie.delete(serie);
 
 		DAO.commit();
@@ -233,8 +237,15 @@ public class Fachada {
 
 	public static List<Serie> listarSerie() {
 		DAO.begin();
-		List<Serie> resultados =  daoserie.readAll();
-		DAO.commit();
+		List<Serie> resultados =  daoserie.listarSerie();
+		
+		// Carrega as propriedades lazy-loaded (por exemplo, genero) antes de retornar
+        for (Serie serie : resultados) {
+            Genero genero = serie.getGenero(); // Isso deve inicializar o proxy lazy-loaded
+            // Outras operações, se necessário
+        }
+		
+        DAO.commit();
 		return resultados;
 	}
 
@@ -291,12 +302,12 @@ public class Fachada {
 		DAO.commit();
 		return usu;
 	}
-	public static Usuario localizarUsuario(String nome, String senha) {
+	public static Usuario localizarUsuario(String nome, String senha) throws Exception{
 		Usuario usu = daousuario.read(nome);
-		if (usu==null)
-			return null;
+		if (usu == null)
+			throw new Exception("Usuario nao encontrado:" + nome);
 		if (! usu.getSenha().equals(senha))
-			return null;
+			throw new Exception("Senha errada" + senha);
 		return usu;
 	}
 

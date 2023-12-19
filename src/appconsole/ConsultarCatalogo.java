@@ -7,8 +7,6 @@ public class ConsultarCatalogo {
 	public ConsultarCatalogo() {
 		try {
 			Fachada.inicializar();
-			// Corrigir bug
-			
 			System.out.println("Series com mais de 1 episodio:");
 			for(Serie s : Fachada.seriesComMaisDeXEpisodios(1)){
 				System.out.println(s);

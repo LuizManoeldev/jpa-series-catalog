@@ -1,5 +1,6 @@
 package modelo;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ public class Episodio {
 	
 	private int numero_episodio;
 	private String nome;
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private Serie serie;
 	
 	
@@ -51,11 +52,16 @@ public class Episodio {
 		this.nome = nome;
 	}
 	
+	public Object getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
 
 	@Override
 	public String toString() {
 		return "Episodio [Numero do Episodio= " + numero_episodio + "] [nome=" + nome + " ]";
 	}
+	
 	
 	
 	

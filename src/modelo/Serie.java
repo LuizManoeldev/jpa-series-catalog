@@ -3,6 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,23 +11,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Serie {
-	@Id		
+	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String nome;
 	private String ano;
 	
-	@OneToMany(mappedBy="serie") // Sempre Usar LIST
+	@OneToMany(mappedBy="serie", cascade=CascadeType.ALL) // Sempre Usar LIST
 	private List<Episodio> listaEpisodios = new ArrayList<>();
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Genero genero;
 	
 	private String canal;
+	
+	@Transient
+	private Long n_eps;
 	
 	
 	public Serie() {}
@@ -37,6 +42,15 @@ public class Serie {
 		this.genero = genero;
 		this.canal = canal;
 	}
+	public Serie(String nome, String ano, String genero, String canal, Long eps) {
+		super();
+		this.nome = nome;
+		this.ano = ano;
+		this.genero = new Genero(genero);
+		this.canal = canal;
+		this.n_eps = eps;
+	}
+	
 	
 	public void adicionar(Episodio ep){
 		listaEpisodios.add(ep);
@@ -81,11 +95,15 @@ public class Serie {
 		listaEpisodios.removeIf(elemento -> elemento == null);
 		return this.listaEpisodios;
 	}
+	
+	public void excluirEpisodios(){
+		this.listaEpisodios = null;
+	}
 
 	@Override
 	public String toString() {
 		return "Serie [nome = " + nome + " ] [Genero = " + this.genero.getNome() + 
-				"] [ Ano = " + ano + " ] [ Canal = " + canal + " ] [Qtd de Eps = " + this.listaEpisodios.size() + " ]" ;
+				"] [ Ano = " + ano + " ] [ Canal = " + canal + " ] [Qtd de Episosdios = " + this.n_eps + " ]" ;
 	}
 	
 	
