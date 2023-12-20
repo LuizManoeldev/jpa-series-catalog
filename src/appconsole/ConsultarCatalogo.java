@@ -7,22 +7,36 @@ public class ConsultarCatalogo {
 	public ConsultarCatalogo() {
 		try {
 			Fachada.inicializar();
-			System.out.println("Series com mais de 1 episodio:");
-			for(Serie s : Fachada.seriesComMaisDeXEpisodios(1)){
-				System.out.println(s);
+			try {
+				System.out.println("Series com mais de 1 episodio:");
+				for(Serie s : Fachada.seriesComMaisDeXEpisodios(1)){
+					System.out.println(s);
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				System.out.println();
+				System.out.println("Series do genero acao:");
+				for(Serie s : Fachada.seriesDoGenero("acao")){
+					System.out.println(s);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
 			
-			System.out.println();
-			System.out.println("Series de 2019:");
-			for(Serie s : Fachada.seriesDoAno("2019")){
-				System.out.println(s);
+			try {
+				System.out.println();
+				System.out.println("Series de 2019:");
+				for(Serie s : Fachada.seriesDoAno("2019")){
+					System.out.println(s);
+				}
+			}catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
 			
-			System.out.println();
-			System.out.println("Series do genero acao:");
-			for(Serie s : Fachada.seriesDoGenero("acao")){
-				System.out.println(s);
-			}
+			
 			
 			
 		} catch (Exception e) {

@@ -238,13 +238,6 @@ public class Fachada {
 	public static List<Serie> listarSerie() {
 		DAO.begin();
 		List<Serie> resultados =  daoserie.listarSerie();
-		
-		// Carrega as propriedades lazy-loaded (por exemplo, genero) antes de retornar
-        for (Serie serie : resultados) {
-            Genero genero = serie.getGenero(); // Isso deve inicializar o proxy lazy-loaded
-            // Outras operações, se necessário
-        }
-		
         DAO.commit();
 		return resultados;
 	}
@@ -265,16 +258,20 @@ public class Fachada {
 
 
 	//consultas especificas
-	public static List<Serie> seriesDoAno(String ano) {
+	public static List<Serie> seriesDoAno(String ano) throws Exception{
 		DAO.begin();
 		List<Serie> resultados = daoserie.seriesDoAno(ano);
+		if(resultados.size()== 0)
+			throw new Exception("Nao encontrado");
 		DAO.commit();
 		return resultados;
 	}
 
-	public static List<Serie> seriesDoGenero(String nomeDoGenero){
+	public static List<Serie> seriesDoGenero(String nomeDoGenero )throws Exception{
 		DAO.begin();
 		List<Serie> resultados = daoserie.seriesDoAno(nomeDoGenero);
+		if(resultados.size()== 0)
+			throw new Exception("Nao encontrado");
 		DAO.commit();
 		return resultados;
 	}
@@ -282,9 +279,9 @@ public class Fachada {
 	public static List<Serie> seriesComMaisDeXEpisodios(int numeroDeEps) throws Exception{
 		DAO.begin();
 		List<Serie> resultados = daoserie.seriesComMaisDeXEpisodios(numeroDeEps);
-		if (resultados == null) {
-			throw new Exception("falha na leitura do banco" + resultados);
-		}
+		if(resultados.size()== 0)
+			throw new Exception("Nao encontrado");
+		
 		DAO.commit();
 		return resultados;
 	}

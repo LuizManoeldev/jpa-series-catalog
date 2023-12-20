@@ -142,15 +142,25 @@ public class TelaConsulta {
 						}
 						break;
 					case 1: 
-						String ano = JOptionPane.showInputDialog("digite o ano de lancamento");
-						List<Serie> resultado2 = Fachada.seriesDoAno(ano);
-						listagemSerie(resultado2);
-						break;
+						try {
+							String ano = JOptionPane.showInputDialog("digite o ano de lancamento");
+							List<Serie> resultado2 = Fachada.seriesDoAno(ano);
+							listagemSerie(resultado2);
+							break;
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					case 2: 
-						String genero = JOptionPane.showInputDialog("digite o genero da serie");
-						List<Serie> resultado3 = Fachada.seriesDoGenero(genero);
-						listagemSerie(resultado3);
-						break;
+						try {
+							String genero = JOptionPane.showInputDialog("digite o genero da serie");
+							List<Serie> resultado3 = Fachada.seriesDoGenero(genero);
+							listagemSerie(resultado3);
+							break;
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
 					}
 

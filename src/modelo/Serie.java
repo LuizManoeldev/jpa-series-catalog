@@ -25,7 +25,7 @@ public class Serie {
 	@OneToMany(mappedBy="serie", cascade=CascadeType.ALL) // Sempre Usar LIST
 	private List<Episodio> listaEpisodios = new ArrayList<>();
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Genero genero;
 	
 	private String canal;

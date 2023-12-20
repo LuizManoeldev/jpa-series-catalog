@@ -16,7 +16,7 @@ public class Episodio {
 	
 	private int numero_episodio;
 	private String nome;
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private Serie serie;
 	
 	
