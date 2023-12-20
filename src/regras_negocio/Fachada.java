@@ -269,7 +269,9 @@ public class Fachada {
 
 	public static List<Serie> seriesDoGenero(String nomeDoGenero )throws Exception{
 		DAO.begin();
-		List<Serie> resultados = daoserie.seriesDoAno(nomeDoGenero);
+		Genero genero = daogenero.read(nomeDoGenero);
+		List<Serie> resultados = daoserie.seriesDoGenero(genero);
+	
 		if(resultados.size()== 0)
 			throw new Exception("Nao encontrado");
 		DAO.commit();

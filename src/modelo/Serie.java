@@ -50,7 +50,14 @@ public class Serie {
 		this.canal = canal;
 		this.n_eps = eps;
 	}
-	
+	public Serie(String nome, String ano, Genero genero, String canal, Long eps) {
+		super();
+		this.nome = nome;
+		this.ano = ano;
+		this.genero = genero;
+		this.canal = canal;
+		this.n_eps = eps;
+	}
 	
 	public void adicionar(Episodio ep){
 		listaEpisodios.add(ep);
@@ -98,6 +105,10 @@ public class Serie {
 	
 	public void excluirEpisodios(){
 		this.listaEpisodios = null;
+	}
+	
+	public Long getNumeroEps() {
+		return this.n_eps;
 	}
 
 	@Override

@@ -288,13 +288,14 @@ public class TelaSerie {
 				if(ser.getGenero() != null) {
 					genero = ser.getGenero().getNome();
 				}
-				int eps = 0;
+				Long eps = ser.getNumeroEps();
+				/*
 				for(Episodio ep : ser.getEpisodios()) {
 					if(ep != null) {
 						eps ++;
 					}
-
 				}
+				*/
 
 				model.addRow(new Object[]{ser.getNome(), ser.getAno(), genero, ser.getCanal(), eps} );
 			}

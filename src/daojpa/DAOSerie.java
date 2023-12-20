@@ -4,7 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-
+import modelo.Genero;
 import modelo.Serie;
 
 public class DAOSerie extends DAO<Serie> {
@@ -54,9 +54,10 @@ public class DAOSerie extends DAO<Serie> {
 	
 	public List<Serie> seriesDoGenero(Object chave){
 		try{
-			String genero = (String) chave;
+			Genero nome_genero = (Genero) chave;
+			
 			TypedQuery<Serie> q = manager.createQuery("select s from Serie s where s.genero =: genero", Serie.class);
-			q.setParameter("genero", genero);
+			q.setParameter("genero", nome_genero);
 			return q.getResultList();
 
 		}catch(NoResultException e){

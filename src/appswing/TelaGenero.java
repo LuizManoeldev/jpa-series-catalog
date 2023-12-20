@@ -241,7 +241,9 @@ public class TelaGenero {
 
 	public void listagem() {
 		try{
+			Fachada.inicializar();
 			List<Genero> lista = Fachada.listarGenero();
+			List<Serie> series = Fachada.listarSerie();
 
 			// model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
@@ -253,23 +255,19 @@ public class TelaGenero {
 			//adicionar linhas no model
 			int contagem = 0;
 			String text = "";
+			
 			for(Genero gen : lista) {
-				text = "";
-				for(Serie ser : gen.getSeries()) {
-					if(contagem == 0) {
-						text = ser.getNome();
-						contagem ++;
-
-					} else {
-						text += " - " + ser.getNome();
-
+				for(Serie ser : series) {
+					if(ser.getGenero().getNome().equals(gen.getNome())) {
+						text += ser.getNome() + " / " ;
+							
 					}
-
-
+				
 				}
-				model.addRow(new Object[]{gen.getNome(), text} );
-
+				model.addRow(new Object[]{gen.getNome(), text});
+				text = "";	
 			}
+				 
 
 			//atualizar model no table (visualizacao)
 			table.setModel(model);
@@ -280,6 +278,7 @@ public class TelaGenero {
 	catch(Exception erro){
 		label.setText(erro.getMessage());
 	}
+	Fachada.finalizar();
 }
 
 }

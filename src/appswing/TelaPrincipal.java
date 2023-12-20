@@ -66,7 +66,7 @@ public class TelaPrincipal {
 		label.setText("Inicializando...");
 		label.setBounds(0, 0, 467, 302);
 		label.setBounds(0, 0, frame.getWidth(), frame.getHeight());
-		ImageIcon imagem = new ImageIcon(getClass().getResource("../imagens/imagem.png"));
+		ImageIcon imagem = new ImageIcon(getClass().getResource("../imagens/imagem.jpg"));
 		imagem = new ImageIcon(imagem.getImage().getScaledInstance(label.getWidth(),label.getHeight(), Image.SCALE_DEFAULT));//		label.setIcon(fotos);
 		label.setIcon(imagem);
 		frame.getContentPane().add(label);

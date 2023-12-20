@@ -145,6 +145,7 @@ public class TelaConsulta {
 						try {
 							String ano = JOptionPane.showInputDialog("digite o ano de lancamento");
 							List<Serie> resultado2 = Fachada.seriesDoAno(ano);
+							System.out.println(resultado2);
 							listagemSerie(resultado2);
 							break;
 						} catch (Exception e1) {
@@ -184,7 +185,7 @@ public class TelaConsulta {
 			model.addColumn("serie");
 			model.addColumn("ano");
 			model.addColumn("genero");
-			model.addColumn("N de episodios");
+			model.addColumn("Canal");
 
 			//adicionar linhas no model
 			
@@ -193,7 +194,7 @@ public class TelaConsulta {
 				if(serie.getGenero() != null) {
 					genero = serie.getGenero().getNome();
 				}
-				model.addRow(new Object[]{serie.getNome(), serie.getAno(), genero, serie.getEpisodios().size()});
+				model.addRow(new Object[]{serie.getNome(), serie.getAno(), genero, serie.getCanal()});
 			}
 
 

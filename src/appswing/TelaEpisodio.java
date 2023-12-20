@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Episodio;
 import modelo.Serie;
-import modelo.Genero;
 import regras_negocio.Fachada;
 
 public class TelaEpisodio {
@@ -44,11 +44,11 @@ public class TelaEpisodio {
 	private JButton serieAndGenero;
 	private JLabel label_1;
 	private JTextField nomeEpisodio;
-	private JTextField nomeEpisodio2;
 	private JLabel label_5;
-	private JTextField nomeSerie;
 	private JButton adicionarEpisodio;
 	private JTextField textField;
+	private JComboBox episodioComboBox;
+	private JComboBox serieComboBox;
 
 	/**
 	 * Launch the application.
@@ -153,6 +153,9 @@ public class TelaEpisodio {
 					int num = Integer.parseInt(numEpisodio.getText());
 					String nome = nomeEpisodio.getText();
 					Fachada.cadastrarEpisodio(num, nome);
+					episodioComboBox.addItem(nome);
+					
+					
 					label.setText("cliente criado: "+ nome);
 					listagem();
 				}
@@ -218,23 +221,19 @@ public class TelaEpisodio {
 		label_5.setBounds(237, 282, 106, 14);
 		frame.getContentPane().add(label_5);
 
-		nomeSerie = new JTextField();
-		nomeSerie.setBounds(342, 279, 142, 20);
-		frame.getContentPane().add(nomeSerie);
-		nomeSerie.setColumns(10);
-
 		adicionarEpisodio = new JButton("adicionar episodio na serie");
 		adicionarEpisodio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(nomeEpisodio2.getText().isEmpty() || nomeSerie.getText().isEmpty()) {
-						label.setText("campo vazio");
+					if(episodioComboBox.equals("Episodios:") || serieComboBox.equals("Series:")) {
+						label.setText("Escolha sua opção");
 						return;
 					}
-					String nome = nomeEpisodio2.getText();
-					String serie = nomeSerie.getText();
-					Fachada.adicionarEpisodioNaSerie(nome, serie);
-					label.setText("episodio adicionado na serie: "+ serie);
+					String nomeEp= (String) episodioComboBox.getSelectedItem();
+					String nomeSerie = (String) serieComboBox.getSelectedItem();
+				
+					Fachada.adicionarEpisodioNaSerie(nomeEp, nomeSerie);
+					label.setText("episodio adicionado na serie: "+ nomeSerie);
 					listagem();
 				}
 				catch(Exception ex) {
@@ -244,67 +243,81 @@ public class TelaEpisodio {
 		});
 		adicionarEpisodio.setBounds(502, 278, 193, 23);
 		frame.getContentPane().add(adicionarEpisodio);
-
-		nomeEpisodio2 = new JTextField();
-		nomeEpisodio2.setBounds(121, 279, 106, 20);
-		frame.getContentPane().add(nomeEpisodio2);
-		nomeEpisodio2.setColumns(10);
-
-	}
-
-	public void listagem() {
-		try{
+		
+		episodioComboBox = new JComboBox();
+		try {
+			Fachada.inicializar();
 			List<Episodio> lista = Fachada.listarEpisodio();
-			List<Serie> series = Fachada.listarSerie();
-
-			// model armazena todas as linhas e colunas do table
-			DefaultTableModel model = new DefaultTableModel();
-
-			//adicionar colunas no model
-			model.addColumn("id");
-			model.addColumn("nome");
-			model.addColumn("serie");
-
-			//adicionar linhas no model
-
-			int contagem = 0;
+			episodioComboBox.addItem("");
 			for(Episodio ep : lista) {
-				String text = "";
-				contagem = 0;
-				if(series == null) {
-					model.addRow(new Object[]{ep.getId(), ep.getNome(), text} );
-				}
-				else {
-					for(Serie ser : series) {
-
-						if((ser.getEpisodios()).contains(ep)) {
-							if(contagem == 0) {
-								text = ser.getNome();
-								contagem ++;
-							}
-							else {
-								text += " - " + ser.getNome();
-							}
-
-
-						}
-
-					}
-					model.addRow(new Object[]{ep.getId(), ep.getNome(), text} );
-
-				}
-
-
+				episodioComboBox.addItem(ep.getNome());
 			}
-
-			//atualizar model no table (visualizacao)
-			table.setModel(model);
-
-			label_4.setText("resultados: "+lista.size()+ " objetos");
-		}
-		catch(Exception erro){
+			Fachada.finalizar();
+			
+		}catch(Exception erro){
 			label.setText(erro.getMessage());
 		}
-	}
-}
 
+
+
+
+		//episodioComboBox.setModel(new DefaultComboBoxModel(new String[] {"Quais as Series que tem mais de N episodios", "Quais as Series do ano X", "Quais as Series do Genero de nome X"}));
+		episodioComboBox.setBounds(104, 278, 134, 22);
+		frame.getContentPane().add(episodioComboBox);
+		
+		serieComboBox = new JComboBox();
+		try {
+			Fachada.inicializar();
+			List<Serie> lista = Fachada.listarSerie();
+			serieComboBox.addItem("");
+			for(Serie ser : lista) {
+				serieComboBox.addItem(ser.getNome());
+			}
+			Fachada.finalizar();
+			
+		}catch(Exception erro){
+			label.setText(erro.getMessage());
+		}
+		serieComboBox.setBounds(342, 278, 106, 20);
+		frame.getContentPane().add(serieComboBox);
+
+
+
+		}
+
+		public void listagem() {
+			try{
+				List<Episodio> lista = Fachada.listarEpisodio();
+			
+
+				// model armazena todas as linhas e colunas do table
+				DefaultTableModel model = new DefaultTableModel();
+
+				//adicionar colunas no model
+				model.addColumn("id");
+				model.addColumn("nome");
+				model.addColumn("serie");
+
+				//adicionar linhas no model
+
+				int contagem = 0;
+				for(Episodio ep : lista) {
+					
+					if(ep.getSerie() == null) {
+						model.addRow(new Object[]{ep.getId(), ep.getNome(), "Nao possui serie"} );
+					} else {
+						model.addRow(new Object[]{ep.getId(), ep.getNome(), ep.getSerie().getNome()} );
+					}
+
+				}
+
+				//atualizar model no table (visualizacao)
+				table.setModel(model);
+
+				label_4.setText("resultados: "+lista.size()+ " objetos");
+			}
+			catch(Exception erro){
+				label.setText(erro.getMessage());
+			}
+		}
+	}
